@@ -1,0 +1,374 @@
+buildscript {
+    repositories {
+        jcenter()
+        mavenCentral()
+       
+    }
+
+    dependencies {
+        classpath 'com.bmuschko:gradle-izpack-plugin:2.0'
+        classpath 'edu.sc.seis.gradle:macappbundle:2.0.0'
+        classpath 'com.github.jengelman.gradle.plugins:shadow:1.2.2'
+    }
+}
+
+import org.apache.tools.ant.taskdefs.condition.Os
+import groovy.io.FileType
+
+apply plugin: 'com.bmuschko.izpack'
+apply plugin:'application'
+apply plugin: 'groovy'
+apply plugin: "jacoco"
+apply plugin: 'codenarc'
+apply plugin: 'com.github.johnrengelman.shadow'
+
+jacocoTestReport {
+	reports {
+		xml.enabled true
+		csv.enabled false
+		html.enabled true
+	}
+}
+
+test {
+    jacoco {
+        excludes = [
+            '**/*TestSpec.class',
+            '**/*Test.class'
+       ]
+    }
+}
+
+codenarcMain {
+	configFile = rootProject.file("config/codenarc/codenarcMain.groovy")
+}
+
+codenarcTest {
+	configFile = rootProject.file("config/codenarc/codenarcTest.groovy")
+}
+
+[codenarcMain, codenarcTest]*.ignoreFailures = true
+
+tasks.withType(CodeNarc) {
+	reports {
+		xml.enabled = true
+		html.enabled = true
+	}
+}
+
+if (!Os.isFamily(Os.FAMILY_WINDOWS)) {
+	apply plugin: 'macAppBundle'
+}
+
+sourceCompatibility = 1.7
+mainClassName = "${mainClass}"
+
+compileJava.options.encoding = 'MacRoman'
+compileGroovy.options.encoding = 'MacRoman'
+
+tasks.withType(GroovyCompile) {
+  groovyOptions.encoding = 'MacRoman'
+}
+
+repositories {
+    mavenCentral()
+	flatDir name: 'localRepository', dirs: './lib'
+}
+
+configurations {
+	ftpAntTask
+}
+
+dependencies {
+    compile group: 'commons-collections', name: 'commons-collections', version: '3.2'
+    testCompile group: 'junit', name: 'junit', version: '4.11'
+    testCompile 'org.hamcrest:hamcrest-all:1.3'
+	testCompile 'org.spockframework:spock-core:1.0-groovy-2.3'
+    
+	// general
+    compile 'net.sf.dozer:dozer:5.3.2'
+    compile 'org.slf4j:slf4j-log4j12:1.5.6'
+    compile 'com.thoughtworks.xstream:xstream:1.3.1'
+    compile 'org.apache.pdfbox:pdfbox:1.8.7'
+    compile 'commons-io:commons-io:2.4'
+    compile 'org.json:json:20090211'
+	compile 'javax.mail:mail:1.4'
+	compile 'jfree:jfreechart:1.0.13'
+	compile 'log4j:log4j:1.2.17'
+	compile 'com.google.code.gson:gson:2.2.4'
+	compile 'joda-time:joda-time:2.3'
+    compile 'cglib:cglib-nodep:2.2'
+    compile 'org.imgscalr:imgscalr-lib:4.2'
+    
+	// groovy
+    compile group: 'org.codehaus.groovy', name: 'groovy-all', version: '2.3.3'
+	
+	//iz pack
+    izpack 'org.codehaus.izpack:izpack-standalone-compiler:4.3.4'
+	
+	// ant ftp
+	ftpAntTask module("org.apache.ant:ant-commons-net:1.7.0") {
+		module("commons-net:commons-net:1.4.1") {
+		dependencies("oro:oro:2.0.8@jar")
+		}
+	}
+	
+	// cac related
+	compile 'commons-codec:commons-codec:1.4'
+	compile 'commons-httpclient:commons-httpclient:3.1'
+	compile 'org.apache.httpcomponents:httpclient:4.2.5'
+	compile 'net.sourceforge.htmlunit:htmlunit:2.9'
+	compile 'sunpkcs11:sunpkcs11:1.0'
+}
+
+
+/**
+ * Used for taking the build number and version and placing them in the 
+ * source code within application.properties.
+ */
+void updateAppProperties() {
+	File file = file("src/main/resources/application.properties")
+	println "Updating ${file}"
+	println "buildNumber=${buildNumber} and version=${version}"
+	println " "
+	file.write("")
+	file.append("buildNumber=${buildNumber}\r\n")
+	file.append("version=${version}\r\n")
+	file.append("binaryName=${binaryName}\r\n")
+	file.append("host=${host}\r\n")
+    file.append("exampleDir=${exampleDir}\r\n")
+    file.append("templateDir=${templateDir}\r\n")
+    
+        
+    
+    
+}
+
+void zipData() {
+    println "Compressing examples and templates into ${projectDir}/src/main/resources"
+    
+    File exampleZip = new File("${projectDir}/src/main/resources/${exampleDir}.zipdir")
+    exampleZip.delete()
+    ant.zip(
+        destfile:exampleZip, 
+        basedir:"${projectDir}/${exampleDir}"
+    )
+    
+    File templateZip = new File("${projectDir}/src/main/resources/${templateDir}.zipdir")
+    ant.zip(
+        destfile:templateZip,
+        basedir:"${projectDir}/${templateDir}"
+    )
+}
+
+updateAppProperties()
+
+zipData()
+
+/**
+ * On Jar copies libs into webstart/libs
+ */
+task copyFiles(type: Copy, dependsOn: [jar]) {
+	from configurations.compile
+	from("${buildDir}/libs")
+	into("${buildDir}/webstart/lib")
+	include('*.jar')
+}
+
+/**
+ * Signs all of the JAR files in webstart/libs
+ */
+task signAll(dependsOn: [copyFiles]) << {
+	new File("${buildDir}/webstart/signed").mkdirs()
+	def libFiles = files { file("${buildDir}/webstart/lib").listFiles() }
+	libFiles.each {
+		println "   * Signing " + it.path
+		ant.signjar(
+				destDir: "${buildDir}/webstart/signed",
+				alias: 'keystore',
+				jar: it,
+				keystore: 'keystore',
+				storepass: "${keyStorePassword}",
+				preservelastmodified: 'true')
+	}
+}
+
+/**
+ * Signs all of the JAR files in webstart/signed and generates a JNLP file
+ */
+task generateJnlp(dependsOn: [signAll]) << {
+	File jnlpTemplateFile = new File("${projectDir}/src/jnlp/template/template.vm")
+	def root = new XmlParser().parse(jnlpTemplateFile)
+	def jnlpFileName = "${binaryName}.jnlp"
+	// Setting values in the jnlp template
+	// Setting root values
+	// File CodeBase
+	// root.@codebase = 'file:/'+new File('webstart/signed').absolutePath
+	// Hppt CodeBase
+	root.@codebase = "http://${host}/${binaryName}"
+	root.@href = jnlpFileName
+	// Setting information values
+	def information = root.information[0]
+	def title = information.title[0]
+	def vendor = information.vendor[0]
+	title.setValue("MILFIT v${version}.${buildNumber}")
+	vendor.setValue("John Valentino")
+	def descriptionList = information.description
+	descriptionList.each {
+		it.setValue("A tool for downloading and installing other tools.")
+	}
+	// Setting resources
+	def resource = root.resources[0]
+	def j2se = resource.j2se[0]
+	j2se.@version = "1.7+"
+	def collection = files { file("${buildDir}/webstart/lib").listFiles() }
+	def mainJar = "${binaryName}-${version}.jar"
+	collection.each {
+		def resourceValues = [href: it.name]
+		if (mainJar == it.name) {
+			resourceValues = [href: it.name, main: 'true']
+		}
+		resource.appendNode('jar', resourceValues)
+	}
+	// Setting the main class
+	def applicationDesc = root.'application-desc'[0]
+	applicationDesc.'@main-class' = "${mainClassName}"
+	// Writing the jnlp file filled
+	File jnlpFile = new File("${buildDir}/webstart/signed/" + jnlpFileName)
+	new XmlNodePrinter(new PrintWriter(jnlpFile)).print(root)
+}
+
+/**
+ * Utility for doing a local JNLP deployment, but you wil have to update 
+ * the JNLP host location
+ */
+task deployLocal (dependsOn: [generateJnlp])<< {
+	println("Generating all webstart files in:webstart/signed")
+	ant.delete(dir: "${deployDir}/${binaryName}")
+	ant.mkdir(dir: "${deployDir}/${binaryName}")
+	ant.mkdir(dir: "${deployDir}/${binaryName}")
+	ant.copydir(src: "${buildDir}/webstart/signed", dest: "${deployDir}/${binaryName}")
+	println "deployed locally to ${deployDir}/${binaryName}"
+}
+
+/**
+ * Handles generating a Java based installer for Windows using IzPack 
+ */
+izPackCreateInstaller.dependsOn installApp
+
+izpack {
+    baseDir = file("$buildDir")
+    installFile = file("installer/izpack/installer.xml")
+    outputFile = file("$buildDir/distributions/${binaryName}-${version}-installer.jar")
+    compression = 'deflate'
+    compressionLevel = 9
+    appProperties = ['app.group': 'USNR', 'app.name': "${binaryName}", 'app.title': "${binaryName}",
+                     'app.version': version, 'app.subpath': "${binaryName}-${version}"]
+}
+
+/**
+ * When only on a Mac, handles using the Mac App Bundle plugin to construct a .App
+ * and put it in a .Dmg
+ */
+if (!Os.isFamily(Os.FAMILY_WINDOWS)) {
+	macAppBundle {
+		mainClassName = "${mainClass}"
+		bundleJRE = true
+		icon = "installer/icons/iconbuilder.icns"
+	}
+}
+
+task wrapper(type: Wrapper) {
+    gradleVersion =  '2.2'
+}
+
+
+
+/**
+ * Builds the Mac installer, Windows installer, and JNLP based installer
+ */
+task buildAllInstallers {
+	//dependsOn 'izPackCreateInstaller'
+	if (!Os.isFamily(Os.FAMILY_WINDOWS)) {
+		dependsOn ':buildMacApp'
+	}
+	dependsOn 'generateJnlp'
+    dependsOn 'buildStandaloneZip'
+    
+    
+}
+
+task buildMacApp(dependsOn: createAppZip) << {
+    File oldFile = new File("${buildDir}/distributions/milfit-${version}.zip")
+    File newFile = new File("${buildDir}/milfit-mac.zip")
+    oldFile.renameTo(newFile)
+    
+}
+
+task buildStandaloneZip(dependsOn: shadowJar) << {
+    File zipDir = new File("${buildDir}/standalonezip/${binaryName}-${version}.${buildNumber}")
+    File targetJar = new File("${zipDir}/${binaryName}.jar")
+    File allJar = new File("${buildDir}/libs/${binaryName}-${version}-all.jar")
+    
+    ant.copy(file:allJar, tofile:targetJar)
+    
+    ant.copydir(src:"${exampleDir}", dest:"${zipDir}/${exampleDir}")
+    ant.copydir(src:"${templateDir}", dest:"${zipDir}/${templateDir}")
+    
+    ant.zip(destfile:"${buildDir}/${binaryName}-standalone.zip", basedir:"${buildDir}/standalonezip")
+    
+    println "Generating ${buildDir}/version.txt"
+    new File("${buildDir}").mkdir()
+    new File("${buildDir}/version.txt").text = "${version}.${buildNumber}"
+}
+
+void upload(String dir, String pattern, String remoteDir) {
+	ant {
+		taskdef(name: 'ftp',
+				classname: 'org.apache.tools.ant.taskdefs.optional.net.FTP',
+				classpath: configurations.ftpAntTask.asPath)
+		ftp(server: "${ftpHost}", userid: "${ftpUser}", password: "${ftpPassword}", remoteDir: "${remoteDir}") {
+			fileset(dir: dir) {
+				include(name: "${pattern}")
+			}
+		}
+	}
+}
+
+void doDeploy() {
+	//if (!Os.isFamily(Os.FAMILY_WINDOWS)) {
+	//	println "Uploading ZIP..."
+	//	upload("${buildDir}/distributions", "*.zip", "valentino-tech.com")
+	//	println "Download link will be http://${host}/${binaryName}-${version}.zip"
+	//}
+	
+	//println "Uploading Insaller Jar..."
+	//upload("${buildDir}/distributions", "*.jar", "valentino-tech.com")
+	//println "Download link will be http://${host}/${binaryName}-${version}-installer.jar"
+	
+	println "Uploading JNLP..."
+	upload("${buildDir}/webstart/signed", "*.*", "valentino-tech.com/${binaryName}")
+    println "Download link will be http://${host}/${binaryName}/${binaryName}.jnlp"
+    
+    println "Uploading Standalone ZIPs..."
+    upload("${buildDir}", "*.zip", "valentino-tech.com/${binaryName}")
+    println "Standalone link will be http://${host}/${binaryName}/${binaryName}-standalone.zip"
+    println "Mac link will be http://${host}/${binaryName}/${binaryName}-mac.zip"
+    
+    println "Uploading the version file"
+    upload("${buildDir}", "*.txt", "valentino-tech.com/${binaryName}")
+}
+
+task deploy(dependsOn: 'buildAllInstallers') << {
+	
+	doDeploy()
+	
+}
+
+task deployStandalone() << {
+	doDeploy()
+}
+
+
+
+

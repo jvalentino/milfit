@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<!--
+ 
+    iconIndex="0"
+	
+	-->
+
+<shortcuts>
+  <skipIfNotSupported/>
+  
+  <programGroup defaultName="MILFIT"
+                location="startMenu"/>
+  <shortcut
+    name="MILFIT"
+    target="$INSTALL_PATH\bin\milfit.bat"
+    workingDirectory="$INSTALL_PATH\bin"
+    description="This starts the application"
+	iconFile="$INSTALL_PATH\icon.ico"
+    initialState="normal"
+    programGroup="yes"
+    desktop="yes"
+    applications="yes"
+    startMenu="yes"
+    startup="no">
+
+    <createForPack name="MILFIT"/>
+  </shortcut>
+</shortcuts>

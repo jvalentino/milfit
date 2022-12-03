@@ -1,0 +1,11 @@
+build
+.gradle
+bin
+/pii/
+/Generated Individual Member Action Plan.pdf
+/Generated Unit Tracker.xls
+/.settings
+/target
+keystore
+gradle.properties
+

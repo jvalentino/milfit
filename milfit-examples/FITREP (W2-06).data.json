@@ -1,0 +1,399 @@
+{
+    "type": "NAVPERS 1610/2 (11-11)",
+    "elements": [
+        {
+            "value": "CHARLIE, ECHO D",
+            "values": null,
+            "font": null,
+            "key": "1",
+            "name": "Last, First, MI Suffix"
+        },
+        {
+            "value": "LT",
+            "values": null,
+            "font": null,
+            "key": "2",
+            "name": "Grade/Rate"
+        },
+        {
+            "value": "1815",
+            "values": null,
+            "font": null,
+            "key": "3",
+            "name": "Design"
+        },
+        {
+            "value": "111-11-1111",
+            "values": null,
+            "font": null,
+            "key": "4",
+            "name": "SSN"
+        },
+        {
+            "value": null,
+            "values": [
+                "INACT"
+            ],
+            "font": null,
+            "key": "5",
+            "name": "Duty Type"
+        },
+        {
+            "value": "11123",
+            "values": null,
+            "font": null,
+            "key": "6",
+            "name": "UIC"
+        },
+        {
+            "value": "NR NIOC FOO",
+            "values": null,
+            "font": null,
+            "key": "7",
+            "name": "Ship/Station"
+        },
+        {
+            "value": "REGULAR",
+            "values": null,
+            "font": null,
+            "key": "8",
+            "name": "Promotion Status"
+        },
+        {
+            "value": "14Apr02",
+            "values": null,
+            "font": null,
+            "key": "9",
+            "name": "Date Reported"
+        },
+        {
+            "value": null,
+            "values": null,
+            "font": null,
+            "key": "10",
+            "name": "Periodic"
+        },
+        {
+            "value": "true",
+            "values": null,
+            "font": null,
+            "key": "11",
+            "name": "Detachment of Individual"
+        },
+        {
+            "value": null,
+            "values": null,
+            "font": null,
+            "key": "12",
+            "name": "Detachment of Reporting Senior"
+        },
+        {
+            "value": null,
+            "values": null,
+            "font": null,
+            "key": "13",
+            "name": "Special"
+        },
+        {
+            "value": "14Feb01",
+            "values": null,
+            "font": null,
+            "key": "14",
+            "name": "Period of Report From"
+        },
+        {
+            "value": "14Oct31",
+            "values": null,
+            "font": null,
+            "key": "15",
+            "name": "Period of Report To"
+        },
+        {
+            "value": null,
+            "values": null,
+            "font": null,
+            "key": "16",
+            "name": "Not Observed Report"
+        },
+        {
+            "value": "true",
+            "values": null,
+            "font": null,
+            "key": "17",
+            "name": "Type of Report: Regular"
+        },
+        {
+            "value": null,
+            "values": null,
+            "font": null,
+            "key": "18",
+            "name": "Type of Report: Concurrent"
+        },
+        {
+            "value": null,
+            "values": null,
+            "font": null,
+            "key": "19",
+            "name": "Type of Report: Ops Cdr"
+        },
+        {
+            "value": "PP",
+            "values": null,
+            "font": null,
+            "key": "20",
+            "name": "Physical Readiness"
+        },
+        {
+            "value": "NA",
+            "values": null,
+            "font": null,
+            "key": "21",
+            "name": "Billet Subcategory"
+        },
+        {
+            "value": "BRAVO, A C",
+            "values": null,
+            "font": null,
+            "key": "22",
+            "name": "Reporting Senior"
+        },
+        {
+            "value": "CDR",
+            "values": null,
+            "font": null,
+            "key": "23",
+            "name": "Grade"
+        },
+        {
+            "value": "1815",
+            "values": null,
+            "font": null,
+            "key": "24",
+            "name": "Design"
+        },
+        {
+            "value": "CO",
+            "values": null,
+            "font": null,
+            "key": "25",
+            "name": "Title"
+        },
+        {
+            "value": "11123",
+            "values": null,
+            "font": null,
+            "key": "26",
+            "name": "UIC"
+        },
+        {
+            "value": "333-33-3333",
+            "values": null,
+            "font": null,
+            "key": "27",
+            "name": "SSN"
+        },
+        {
+            "value": "Provides IW/Cryptologic expertise/personnel to Fleet, Air, Surface, Submarine, Special Warfare Combantants and AAA/BBB Georgia. Reach back/extended staff support to CENTCOM, EUCOM, and AFRICOM requirements.",
+            "values": null,
+            "font": "10",
+            "key": "28",
+            "name": "Command employment"
+        },
+        {
+            "value": "XO",
+            "values": null,
+            "font": null,
+            "key": "29.A",
+            "name": "Primary duties"
+        },
+        {
+            "value": "Executive Officer-8; Lead administration and operations of 29-Sailor Navy Information Operations Command.\nMOB: COMPACFLT; PFA: 14-1, 14-2.",
+            "values": null,
+            "font": "10",
+            "key": "29.B",
+            "name": "Collateral Duties"
+        },
+        {
+            "value": "14Apr13",
+            "values": null,
+            "font": null,
+            "key": "30",
+            "name": "Date Counseled"
+        },
+        {
+            "value": "BRAVO, A C",
+            "values": null,
+            "font": null,
+            "key": "31",
+            "name": "Counseler"
+        },
+        {
+            "value": "5.0",
+            "values": null,
+            "font": null,
+            "key": "33",
+            "name": "Professional Expertise"
+        },
+        {
+            "value": "5.0",
+            "values": null,
+            "font": null,
+            "key": "34",
+            "name": "Command/EO Climate"
+        },
+        {
+            "value": "5.0",
+            "values": null,
+            "font": null,
+            "key": "35",
+            "name": "Military Bearing"
+        },
+        {
+            "value": "5.0",
+            "values": null,
+            "font": null,
+            "key": "36",
+            "name": "Teamwork"
+        },
+        {
+            "value": "5.0",
+            "values": null,
+            "font": null,
+            "key": "37",
+            "name": "Mission Accomplishment"
+        },
+        {
+            "value": "ENS Smith is a hard charging officer. He is driven and focused on completing his PQS to become a fully qualified IW Officer.\n\nDelivered training documentation for stuff\n5\n6\n7\n8\n9\n10\n11\n12\n13\n14\n15\n16\n17\n18\n19\n20\n21\n22\n23",
+            "values": null,
+            "font": "10",
+            "key": "41",
+            "name": "Comments on Performance"
+        },
+        {
+            "value": "13Jan03",
+            "values": null,
+            "font": null,
+            "key": "45.B",
+            "name": "Reporting Senior Signed Date"
+        },
+        {
+            "value": "5.0",
+            "values": null,
+            "font": null,
+            "key": "38",
+            "name": "Leadership"
+        },
+        {
+            "value": "4.0",
+            "values": null,
+            "font": null,
+            "key": "39",
+            "name": "Tactical Performance"
+        },
+        {
+            "value": "XO",
+            "values": null,
+            "font": null,
+            "key": "40.A",
+            "name": "Recommend this individual 1"
+        },
+        {
+            "value": "OIC",
+            "values": null,
+            "font": null,
+            "key": "40.B",
+            "name": "Recommend this individual 2"
+        },
+        {
+            "value": "Promotable",
+            "values": null,
+            "font": null,
+            "key": "42",
+            "name": "Promotion Recommendation"
+        },
+        {
+            "value": null,
+            "values": null,
+            "font": null,
+            "key": "43.A",
+            "name": "Summary: Significant Problems"
+        },
+        {
+            "value": null,
+            "values": null,
+            "font": null,
+            "key": "43.B",
+            "name": "Summary: Progressing"
+        },
+        {
+            "value": "1",
+            "values": null,
+            "font": null,
+            "key": "43.C",
+            "name": "Summary: Promotable"
+        },
+        {
+            "value": null,
+            "values": null,
+            "font": null,
+            "key": "43.D",
+            "name": "Summary: Must Promote"
+        },
+        {
+            "value": null,
+            "values": null,
+            "font": null,
+            "key": "43.E",
+            "name": "Summary: Early Promote"
+        },
+        {
+            "value": "123 Fake Street\nHurst, TX\n3\n4",
+            "values": null,
+            "font": "10",
+            "key": "44",
+            "name": "Reporting Senior Address"
+        },
+        {
+            "value": "4.86",
+            "values": null,
+            "font": null,
+            "key": "45.C",
+            "name": "Member Trait Average"
+        },
+        {
+            "value": null,
+            "values": null,
+            "font": null,
+            "key": "45.D",
+            "name": "Summary Group Average"
+        },
+        {
+            "value": "true",
+            "values": null,
+            "font": null,
+            "key": "46.A",
+            "name": "Submit a statement?"
+        },
+        {
+            "value": "13Jan03",
+            "values": null,
+            "font": null,
+            "key": "46.C",
+            "name": "Sign Date"
+        },
+        {
+            "value": "Nothing here",
+            "values": null,
+            "font": null,
+            "key": "47.A",
+            "name": "Name, grade, command Concurrent"
+        },
+        {
+            "value": "13Jan03",
+            "values": null,
+            "font": null,
+            "key": "47.C",
+            "name": "Name, grade, command Concurrent Date"
+        }
+    ]
+}

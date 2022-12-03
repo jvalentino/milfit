@@ -1,0 +1,12 @@
+{
+    "type": "NAVPERS 1616/26 (08-10)",
+    "elements": [
+        {
+            "value": "SMITH, JOHN NMN",
+            "values": null,
+            "font": null,
+            "key": "1",
+            "name": "Last, First, MI Suffix"
+        }
+    ]
+}
