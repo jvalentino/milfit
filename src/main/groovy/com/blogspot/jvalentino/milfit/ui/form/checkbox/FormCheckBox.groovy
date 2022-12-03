@@ -41,7 +41,7 @@ class FormCheckBox extends JPanel implements IForm {
     
     @Override
     void paintComponent(Graphics g) {
-        super.paintComponent(g)
+        //super.paintComponent(g)
         controller.paintComponent(g, this.width, this.height)
     }
     

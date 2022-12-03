@@ -62,7 +62,7 @@ class FormView extends JInternalFrame {
         this.panel = new JPanel() {
             @Override
             void paintComponent(Graphics g) {
-                super.paintComponent(g)
+                //super.paintComponent(g)
                 controller.paintComponent(g)
             }
         }
