@@ -318,3 +318,134 @@ The purpose is to just be a checkbox that is selected or not selected.
         }
 ```
 
+### Type: TEXT_WRAP
+
+This is a text box, but with wrapping.
+
+- font - The font size
+- height - The height of the box
+- key - The unique ID of this field in the form
+- name - The friendly name for this field
+- width - The width of the text field
+- x - The x position of this component
+- y - the y position of this component
+- page - The page on which this component occurs
+
+```json
+ {
+            "deriveValueFrom": null,
+            "deriveValueUsing": null,
+            "font": 10,
+            "fonts": null,
+            "height": 35,
+            "key": "28",
+            "maxChars": 92,
+            "maxCharss": null,
+            "name": "Command employment",
+            "page": 1,
+            "selections": null,
+            "type": "TEXT_WRAP",
+            "valueFormat": null,
+            "visualOffsetX": 0,
+            "visualOffsetY": 0,
+            "width": null,
+            "x": 30,
+            "xs": null,
+            "y": 610
+        },
+```
+
+### Type: CHECK_BOX_SINGLE
+
+This is a series of checkboxes, but where only one selection can be made.
+
+- font - The font size
+- key - The unique ID of this field in the form
+- name - The friendly name for this field
+- xs - The x position of each of th options
+- y - the y position of this component
+- page - The page on which this component occurs
+- selections - The list of checkbox names to display
+
+```json
+{
+            "deriveValueFrom": null,
+            "deriveValueUsing": null,
+            "font": 12,
+            "fonts": null,
+            "height": 14,
+            "key": "33",
+            "maxChars": null,
+            "maxCharss": null,
+            "name": "Deckplate Leadership",
+            "page": 1,
+            "selections": [
+                "NOB",
+                "1.0",
+                "2.0",
+                "3.0",
+                "4.0",
+                "5.0"
+            ],
+            "type": "CHECK_BOX_SINGLE",
+            "valueFormat": null,
+            "visualOffsetX": 0,
+            "visualOffsetY": 0,
+            "width": null,
+            "x": 0,
+            "xs": [
+                84,
+                214,
+                251,
+                392,
+                423,
+                564
+            ],
+            "y": 332
+        },
+```
+
+### Type: TEXT with deriveValueFrom
+
+The purpose is to have a text field, but that gets a value that is derived by using any number of other fields.
+
+In this example that value is the average of the numerical values found in keys 33, 34, 35, 36, 37, 38, and 39.
+
+It is then put in the numerical format of #0.00.
+
+```json
+{
+            "deriveValueFrom": [
+                "33",
+                "34",
+                "35",
+                "36",
+                "37",
+                "38",
+                "39"
+            ],
+            "deriveValueUsing": "average",
+            "font": 12,
+            "fonts": null,
+            "height": 14,
+            "key": "45.C",
+            "maxChars": null,
+            "maxCharss": null,
+            "name": "Member Trait Average",
+            "page": 2,
+            "selections": null,
+            "type": "TEXT",
+            "valueFormat": "#0.00",
+            "visualOffsetX": 0,
+            "visualOffsetY": 0,
+            "width": 30,
+            "x": 115,
+            "xs": null,
+            "y": 72
+        },
+```
+
+
+
+
+
