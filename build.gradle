@@ -33,6 +33,7 @@ jacocoTestReport {
 }
 
 test {
+	useJUnitPlatform()
     jacoco {
         excludes = [
             '**/*TestSpec.class',
